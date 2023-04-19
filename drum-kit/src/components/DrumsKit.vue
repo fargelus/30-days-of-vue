@@ -1,10 +1,9 @@
 <template>
-    <div class="drums">
-        <div v-for="(sound, index) in sounds">
+    <div class="drums-kit">
+        <div v-for="(sound, index) in sounds" :key="index">
             <drum-key 
                 :title="sound.title"
-                :type="sound.type"
-                :key="index">
+                :type="sound.type">
             </drum-key>
         </div>
     </div>
@@ -14,44 +13,46 @@
 import DrumKey from './DrumKey.vue'
 
 export default {
+    name: 'DrumsKit',
+    components: {DrumKey},
     data() {
         return {
             sounds: [
             {
                 title: 'A',
-                sound_type: 'clap',
+                type: 'clap',
             },
             {
                 title: 'S',
-                sound_type: 'hihat',
+                type: 'hihat',
             },
             {
                 title: 'D',
-                sound_type: 'kick'
+                type: 'kick'
             },
             {
                 title: 'F',
-                sound_type: 'openhat'
+                type: 'openhat'
             },
             {
                 title: 'G',
-                sound_type: 'boom'
+                type: 'boom'
             },
             {
                 title: 'H',
-                sound_type: 'ride'
+                type: 'ride'
             },
             {
                 title: 'J',
-                sound_type: 'snare'
+                type: 'snare'
             },
             {
                 title: 'K',
-                sound_type: 'tom'
+                type: 'tom'
             },
             {
                 title: 'L',
-                sound_type: 'tink'
+                type: 'tink'
             },
         ]}
     }
@@ -59,7 +60,7 @@ export default {
 </script>
 
 <style scoped>
-    .drums {
+    .drums-kit {
       display: flex;
       justify-content: center;
       align-items: center;

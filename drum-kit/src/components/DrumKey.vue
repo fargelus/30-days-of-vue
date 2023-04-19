@@ -1,16 +1,16 @@
 <template>
     <div class="drum-key">
         <div class="drum-key__title">{{title}}</div>
-        <div class="drum-key__sound-type">{{sound_type}}</div>
-        <audio :src="`sounds/${sound_type}.wav`"></audio>
+        <div class="drum-key__sound-type">{{type}}</div>
     </div>
 </template>
 
 <script type="module">
     export default {
+        name: 'DrumKey',
         props: {
             title: String,
-            sound_type: String
+            type: String
         }
     }
 </script>
