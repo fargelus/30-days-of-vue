@@ -1,16 +1,24 @@
 <template>
     <div class="drum-key">
-        <div class="drum-key__title">{{title}}</div>
+        <div class="drum-key__title">{{code}}</div>
         <div class="drum-key__sound-type">{{type}}</div>
+        <audio :src="`${soundsPath}/${type}.wav`"></audio>
     </div>
 </template>
 
 <script type="module">
+import { process } from 'ipaddr.js';
+
     export default {
         name: 'DrumKey',
         props: {
-            title: String,
-            type: String
+            code: String,
+            type: String,
+        },
+        data() {
+          return {
+            soundsPath: `${process.env.BASE_URL}sounds`
+          }
         }
     }
 </script>

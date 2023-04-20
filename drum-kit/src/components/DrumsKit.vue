@@ -1,11 +1,11 @@
 <template>
     <div class="drums-kit">
-        <div v-for="(sound, index) in sounds" :key="index">
-            <drum-key 
-                :title="sound.title"
-                :type="sound.type">
-            </drum-key>
-        </div>
+        <drum-key v-for="sound in sounds"
+            :key="sound.code"
+            :code="sound.code"
+            :type="sound.type">
+        </drum-key>
+        <div>{{this.pressedKey}}</div>
     </div>
 </template>
 
@@ -17,44 +17,58 @@ export default {
     components: {DrumKey},
     data() {
         return {
+            pressedKey: null,
             sounds: [
             {
-                title: 'A',
+                code: 'A',
                 type: 'clap',
             },
             {
-                title: 'S',
+                code: 'S',
                 type: 'hihat',
             },
             {
-                title: 'D',
+                code: 'D',
                 type: 'kick'
             },
             {
-                title: 'F',
+                code: 'F',
                 type: 'openhat'
             },
             {
-                title: 'G',
+                code: 'G',
                 type: 'boom'
             },
             {
-                title: 'H',
+                code: 'H',
                 type: 'ride'
             },
             {
-                title: 'J',
+                code: 'J',
                 type: 'snare'
             },
             {
-                title: 'K',
+                code: 'K',
                 type: 'tom'
             },
             {
-                title: 'L',
+                code: 'L',
                 type: 'tink'
             },
         ]}
+    },
+    mounted() {
+        addEventListener('keypress', this.setPressedKey);
+    },
+    methods: {
+        setPressedKey(ev) {
+            const key = ev.key.toUpperCase();
+            this.pressedKey = this.isKeyWatched(key) ? key : null;
+        },
+
+        isKeyWatched(key) {
+            return this.sounds.find(sound => sound.code === key);
+        }
     }
 };
 </script>
