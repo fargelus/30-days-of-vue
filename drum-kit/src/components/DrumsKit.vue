@@ -76,7 +76,7 @@ export default {
     },
 
     isCodeActive(code) {
-      return this.pressedKey && this.pressedKey.toUpperCase() === code;
+      return this.pressedKey === code;
     },
   },
 };
