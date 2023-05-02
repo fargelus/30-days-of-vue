@@ -3,12 +3,12 @@
 </template>
 
 <script>
-import DrumsKit from './components/DrumsKit.vue'
+import DrumsKit from "./components/DrumsKit.vue";
 
 export default {
-  name: 'App',
-  components: {DrumsKit}
-}
+  name: "App",
+  components: { DrumsKit },
+};
 </script>
 
 <style>
