@@ -2,12 +2,12 @@
   <div class="drums-kit">
     <drum-key
       v-for="sound in sounds"
+      :is-active="!!isCodeActive(sound.code)"
       :key="sound.code"
       :code="sound.code"
       :type="sound.type"
     >
     </drum-key>
-    <div>{{ this.pressedKey }}</div>
   </div>
 </template>
 
@@ -60,9 +60,11 @@ export default {
       ],
     };
   },
+
   mounted() {
     addEventListener("keypress", this.setPressedKey);
   },
+
   methods: {
     setPressedKey(ev) {
       const key = ev.key.toUpperCase();
@@ -71,6 +73,10 @@ export default {
 
     isKeyWatched(key) {
       return this.sounds.find((sound) => sound.code === key);
+    },
+
+    isCodeActive(code) {
+      return this.pressedKey && this.pressedKey.toUpperCase() === code;
     },
   },
 };

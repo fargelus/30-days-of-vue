@@ -1,8 +1,8 @@
 <template>
-  <div class="drum-key">
+  <div class="drum-key" :class="{ 'drum-key--active': isActive }">
     <div class="drum-key__title">{{ code }}</div>
     <div class="drum-key__sound-type">{{ type }}</div>
-    <audio :src="`${soundsPath}/${type}.wav`"></audio>
+    <audio ref="sound" :src="`${soundsPath}/${type}.wav`"></audio>
   </div>
 </template>
 
@@ -12,12 +12,25 @@ import { process } from "ipaddr.js";
 export default {
   name: "DrumKey",
   props: {
+    isActive: Boolean,
     code: String,
     type: String,
   },
+
+  updated() {
+    if (this.isActive) {
+      this.$refs.sound.play();
+    }
+  },
+
   data() {
     return {
       soundsPath: `${process.env.BASE_URL}sounds`,
+      styles: {
+        color: {
+          gold: "#e6a309",
+        },
+      },
     };
   },
 };
@@ -37,12 +50,17 @@ export default {
   background: rgba(0, 0, 0, 0.5);
 }
 
+.drum-key--active {
+  outline: 4px solid v-bind("styles.color.gold");
+  border-width: 2px;
+}
+
 .drum-key__title {
   color: #fff;
   font-size: 28px;
 }
 
 .drum-key__sound-type {
-  color: #e6a309;
+  color: v-bind("styles.color.gold");
 }
 </style>
