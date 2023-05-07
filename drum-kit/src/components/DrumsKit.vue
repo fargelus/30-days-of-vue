@@ -2,6 +2,7 @@
   <div class="drums-kit">
     <drum-key
       v-for="sound in sounds"
+      @sound="onSound"
       :is-active="!!isCodeActive(sound.code)"
       :key="sound.code"
       :code="sound.code"
@@ -77,6 +78,10 @@ export default {
 
     isCodeActive(code) {
       return this.pressedKey === code;
+    },
+
+    onSound(duration) {
+      setTimeout(() => (this.pressedKey = null), duration * 1000);
     },
   },
 };

@@ -20,6 +20,8 @@ export default {
   updated() {
     if (this.isActive) {
       this.$refs.sound.play();
+      const duration = this.$refs.sound.duration.toFixed(2);
+      this.$emit("sound", duration);
     }
   },
 
@@ -38,6 +40,7 @@ export default {
 
 <style scoped>
 .drum-key {
+  box-sizing: border-box;
   border: 4px solid black;
   display: flex;
   align-items: center;
