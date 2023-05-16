@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="toggleRecord" class="record-btn">{{ icon }}</button>
+    <button @click="toggleRecord" class="control-btn">{{ icon }}</button>
   </div>
 </template>
 
@@ -9,31 +9,21 @@ export default {
   name: "RecordBtn",
   data() {
     return {
-      isRecordStarted: false,
+      started: false,
     };
   },
 
   methods: {
     toggleRecord() {
-      this.isRecordStarted = !this.isRecordStarted;
-      this.isRecordStarted ? this.$emit("record") : this.$emit("pause");
+      this.started = !this.started;
+      this.started ? this.$emit("record") : this.$emit("pause");
     },
   },
 
   computed: {
     icon() {
-      return this.isRecordStarted ? "⏸️" : "⏺️";
+      return this.started ? "⏸️" : "⏺️";
     },
   },
 };
 </script>
-
-<style>
-.record-btn {
-  cursor: pointer;
-  background: transparent;
-  border: 0;
-  font-size: 30px;
-  padding: 0;
-}
-</style>

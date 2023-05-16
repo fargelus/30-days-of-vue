@@ -12,6 +12,7 @@
       </drum-key>
     </div>
     <div class="drums-kit__controls">
+      <play-btn @play="onPlay" :is-disabled="isPlayBtnDisabled()"></play-btn>
       <record-btn @record="onRecord" @pause="onPause"></record-btn>
     </div>
   </div>
@@ -19,16 +20,19 @@
 
 <script>
 import DrumKey from "./DrumKey.vue";
+import PlayBtn from "./PlayBtn.vue";
 import RecordBtn from "./RecordBtn.vue";
 
 export default {
   name: "DrumsKit",
-  components: { DrumKey, RecordBtn },
+  components: { DrumKey, PlayBtn, RecordBtn },
   data() {
     return {
       pressedKey: null,
       recordKeys: [],
       recording: false,
+      playing: false,
+      playingGenerator: null,
       sounds: [
         {
           code: "A",
@@ -97,7 +101,11 @@ export default {
     },
 
     onSound(duration) {
-      setTimeout(() => (this.pressedKey = null), duration * 1000);
+      setTimeout(() => (this.pressedKey = this.nextSound()), duration * 1000);
+    },
+
+    nextSound() {
+      return this.playing ? this.playingGenerator.next().value : null;
     },
 
     onRecord() {
@@ -107,6 +115,31 @@ export default {
 
     onPause() {
       this.recording = false;
+    },
+
+    playingIterator: function* () {
+      for (const sound of this.recordKeys) {
+        yield sound;
+      }
+      this.afterPlaying();
+    },
+
+    afterPlaying() {
+      this.playing = false;
+      this.recordKeys = [];
+    },
+
+    onPlay() {
+      this.playing = true;
+      this.playingGenerator = this.playingIterator();
+      this.pressedKey = this.playingGenerator.next().value;
+    },
+
+    isPlayBtnDisabled() {
+      if (this.recordKeys.length == 0 || this.recording) {
+        return true;
+      }
+      return false;
     },
   },
 };
@@ -126,6 +159,11 @@ export default {
 }
 
 .drums-kit__controls {
+  display: flex;
   margin-top: 20px;
+}
+
+.drums-kit__controls > div {
+  margin-right: 15px;
 }
 </style>
