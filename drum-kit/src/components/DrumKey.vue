@@ -65,5 +65,8 @@ export default {
 
 .drum-key__sound-type {
   color: v-bind("styles.color.gold");
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.1rem;
 }
 </style>
