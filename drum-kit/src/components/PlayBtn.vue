@@ -11,6 +11,7 @@ export default {
   name: "PlayBtn",
   props: {
     isDisabled: Boolean,
+    playing: Boolean,
   },
 
   data() {
@@ -20,7 +21,7 @@ export default {
   },
 
   updated() {
-    if (this.isDisabled) {
+    if (this.isDisabled || !this.playing) {
       this.started = false;
     }
   },

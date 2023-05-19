@@ -12,7 +12,11 @@
       </drum-key>
     </div>
     <div class="drums-kit__controls">
-      <play-btn @play="onPlay" :is-disabled="isPlayBtnDisabled()"></play-btn>
+      <play-btn
+        @play="onPlay"
+        :is-disabled="isPlayBtnDisabled()"
+        :playing="playing"
+      ></play-btn>
       <record-btn @record="onRecord" @pause="onPause"></record-btn>
     </div>
   </div>
@@ -81,11 +85,11 @@ export default {
   methods: {
     setPressedKey(ev) {
       const key = ev.key.toUpperCase();
-      this.pressedKey = this.isKeyWatched(key) ? key : null;
+      this.pressedKey = this.isKeyEqlCode(key) ? key : null;
       this.checkRecording();
     },
 
-    isKeyWatched(key) {
+    isKeyEqlCode(key) {
       return this.sounds.find((sound) => sound.code === key);
     },
 
@@ -121,12 +125,7 @@ export default {
       for (const sound of this.recordKeys) {
         yield sound;
       }
-      this.afterPlaying();
-    },
-
-    afterPlaying() {
       this.playing = false;
-      this.recordKeys = [];
     },
 
     onPlay() {
@@ -136,10 +135,7 @@ export default {
     },
 
     isPlayBtnDisabled() {
-      if (this.recordKeys.length == 0 || this.recording) {
-        return true;
-      }
-      return false;
+      return this.recordKeys.length == 0 || this.recording;
     },
   },
 };
@@ -154,12 +150,12 @@ export default {
   height: 100%;
 }
 
-.drums-kit__keys {
+.drums-kit__keys,
+.drums-kit__controls {
   display: flex;
 }
 
 .drums-kit__controls {
-  display: flex;
   margin-top: 20px;
 }
 
