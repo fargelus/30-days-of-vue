@@ -1,16 +1,32 @@
 <template>
   <div class="clock">
     <div class="clock-face">
-      <div class="hand hour-hand"></div>
-      <div class="hand min-hand"></div>
-      <div class="hand second-hand"></div>
+      <clock-hand :value="seconds"></clock-hand>
     </div>
   </div>
 </template>
 
 <script>
+import ClockHand from "./ClockHand.vue";
+
 export default {
   name: "AnalogClock",
+  components: {
+    ClockHand,
+  },
+
+  data() {
+    return {
+      ...this.syncCurrentTime(),
+    };
+  },
+
+  methods: {
+    syncCurrentTime() {
+      const datetime = new Date();
+      return { seconds: datetime.getSeconds() };
+    },
+  },
 };
 </script>
 
@@ -31,14 +47,6 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  transform: translateY(-3px); /* account for the height of the clock hands */
-}
-
-.hand {
-  width: 50%;
-  height: 6px;
-  background: black;
-  position: absolute;
-  top: 50%;
+  transform: translateY(-3px);
 }
 </style>
