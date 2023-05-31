@@ -1,7 +1,7 @@
 <template>
   <div class="clock">
     <div class="clock-face">
-      <clock-hand :value="seconds"></clock-hand>
+      <clock-hand :offset-degrees="90" :time-value="seconds"></clock-hand>
     </div>
   </div>
 </template>
@@ -17,15 +17,18 @@ export default {
 
   data() {
     return {
-      ...this.syncCurrentTime(),
+      seconds: this.getCurrentSeconds(),
     };
   },
 
   methods: {
-    syncCurrentTime() {
-      const datetime = new Date();
-      return { seconds: datetime.getSeconds() };
+    getCurrentSeconds() {
+      return new Date().getSeconds();
     },
+  },
+
+  mounted() {
+    setInterval(() => (this.seconds = this.getCurrentSeconds()), 1000);
   },
 };
 </script>

@@ -6,17 +6,24 @@
 export default {
   name: "ClockHand",
   props: {
-    value: Number,
+    timeValue: Number,
+    offsetDegrees: Number,
   },
 
   data() {
     return {
-      //rotateDegree:
+      initialRotate: this.$props.offsetDegrees,
     };
   },
 
-  mounted() {
-    console.log(this.$props);
+  computed: {
+    rotateValue() {
+      return this.initialRotate + this.$props.timeValue * 6;
+    },
+
+    rotateProperty() {
+      return `rotate(${this.rotateValue}deg)`;
+    },
   },
 };
 </script>
@@ -29,6 +36,6 @@ export default {
   position: absolute;
   top: 50%;
   transform-origin: right;
-  transform: rotate(90deg);
+  transform: v-bind(rotateProperty);
 }
 </style>
