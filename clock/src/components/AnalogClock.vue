@@ -6,6 +6,11 @@
         :offset-degrees="90"
         :time-value="seconds"
       ></clock-hand>
+      <clock-hand
+        class="minute"
+        :offset-degrees="90"
+        :time-value="minutes"
+      ></clock-hand>
     </div>
   </div>
 </template>
@@ -22,6 +27,7 @@ export default {
   data() {
     return {
       seconds: this.getCurrentSeconds(),
+      minutes: this.getCurrentMinutes(),
     };
   },
 
@@ -29,10 +35,20 @@ export default {
     getCurrentSeconds() {
       return new Date().getSeconds();
     },
+
+    getCurrentMinutes() {
+      return new Date().getMinutes();
+    },
   },
 
   mounted() {
-    setInterval(() => (this.seconds = this.getCurrentSeconds()), 1000);
+    setInterval(() => {
+      this.seconds = this.getCurrentSeconds();
+
+      if (this.seconds === 0) {
+        this.minutes = this.getCurrentMinutes();
+      }
+    }, 1000);
   },
 };
 </script>

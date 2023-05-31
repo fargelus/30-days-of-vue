@@ -1,5 +1,5 @@
 <template>
-  <div class="hand" :class="{ second: isSecond }"></div>
+  <div class="hand" :class="{ second: isSecond, minute: isMinute }"></div>
 </template>
 
 <script>
@@ -15,6 +15,8 @@ export default {
     return {
       initialRotate: this.$props.offsetDegrees,
       isSecond: this.$props.class === "second",
+      isMinute: this.$props.class === "minute",
+      secondColor: "#891313",
     };
   },
 
@@ -42,6 +44,11 @@ export default {
 }
 
 .hand.second {
-  background: #891313;
+  background: v-bind(secondColor);
+}
+
+.hand.minute {
+  left: -15px;
+  width: calc(50% + 15px);
 }
 </style>
