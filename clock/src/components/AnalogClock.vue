@@ -1,7 +1,11 @@
 <template>
   <div class="clock">
     <div class="clock-face">
-      <clock-hand :offset-degrees="90" :time-value="seconds"></clock-hand>
+      <clock-hand
+        class="second"
+        :offset-degrees="90"
+        :time-value="seconds"
+      ></clock-hand>
     </div>
   </div>
 </template>

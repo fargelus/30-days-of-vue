@@ -1,5 +1,5 @@
 <template>
-  <div class="hand"></div>
+  <div class="hand" :class="{ second: isSecond }"></div>
 </template>
 
 <script>
@@ -8,11 +8,13 @@ export default {
   props: {
     timeValue: Number,
     offsetDegrees: Number,
+    class: String,
   },
 
   data() {
     return {
       initialRotate: this.$props.offsetDegrees,
+      isSecond: this.$props.class === "second",
     };
   },
 
@@ -37,5 +39,9 @@ export default {
   top: 50%;
   transform-origin: right;
   transform: v-bind(rotateProperty);
+}
+
+.hand.second {
+  background: #891313;
 }
 </style>
