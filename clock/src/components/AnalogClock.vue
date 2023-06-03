@@ -4,13 +4,19 @@
       <clock-hand
         class="second"
         :offset-degrees="90"
-        :time-value="seconds"
+        :degree-value="secondsDegrees"
       ></clock-hand>
       <clock-hand
         class="minute"
         :offset-degrees="90"
-        :time-value="minutes"
+        :degree-value="minutesDegrees"
       ></clock-hand>
+      <clock-hand
+        class="hour"
+        :offset-degrees="90"
+        :degree-value="hoursDegrees"
+      >
+      </clock-hand>
     </div>
   </div>
 </template>
@@ -28,7 +34,22 @@ export default {
     return {
       seconds: this.getCurrentSeconds(),
       minutes: this.getCurrentMinutes(),
+      hours: this.getCurrentHours(),
     };
+  },
+
+  computed: {
+    hoursDegrees() {
+      return this.hours * 30;
+    },
+
+    minutesDegrees() {
+      return this.minutes * 6;
+    },
+
+    secondsDegrees() {
+      return this.seconds * 6;
+    },
   },
 
   methods: {
@@ -39,6 +60,10 @@ export default {
     getCurrentMinutes() {
       return new Date().getMinutes();
     },
+
+    getCurrentHours() {
+      return new Date().getHours();
+    },
   },
 
   mounted() {
@@ -47,6 +72,10 @@ export default {
 
       if (this.seconds === 0) {
         this.minutes = this.getCurrentMinutes();
+      }
+
+      if (this.minutes === 0) {
+        this.hours = this.getCurrentHours();
       }
     }, 1000);
   },

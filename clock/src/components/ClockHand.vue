@@ -1,12 +1,15 @@
 <template>
-  <div class="hand" :class="{ second: isSecond, minute: isMinute }"></div>
+  <div
+    class="hand"
+    :class="{ second: isSecond, minute: isMinute, hour: isHour }"
+  ></div>
 </template>
 
 <script>
 export default {
   name: "ClockHand",
   props: {
-    timeValue: Number,
+    degreeValue: Number,
     offsetDegrees: Number,
     class: String,
   },
@@ -16,13 +19,14 @@ export default {
       initialRotate: this.$props.offsetDegrees,
       isSecond: this.$props.class === "second",
       isMinute: this.$props.class === "minute",
+      isHour: this.$props.class === "hour",
       secondColor: "#891313",
     };
   },
 
   computed: {
     rotateValue() {
-      return this.initialRotate + this.$props.timeValue * 6;
+      return this.initialRotate + this.$props.degreeValue;
     },
 
     rotateProperty() {
@@ -50,5 +54,10 @@ export default {
 .hand.minute {
   left: -15px;
   width: calc(50% + 15px);
+}
+
+.hand.hour {
+  width: 45%;
+  left: 25px;
 }
 </style>
