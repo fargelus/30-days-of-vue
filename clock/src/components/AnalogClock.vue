@@ -1,4 +1,6 @@
 <template>
+  <timezone-picker @hours-changed="onHoursChanged"></timezone-picker>
+
   <div class="clock">
     <div class="clock-face">
       <clock-hand
@@ -23,11 +25,13 @@
 
 <script>
 import ClockHand from "./ClockHand.vue";
+import TimezonePicker from "./TimezonePicker.vue";
 
 export default {
   name: "AnalogClock",
   components: {
     ClockHand,
+    TimezonePicker,
   },
 
   data() {
@@ -64,18 +68,24 @@ export default {
     getCurrentHours() {
       return new Date().getHours();
     },
+
+    onHoursChanged(hours) {
+      this.hours = hours;
+    },
   },
 
   mounted() {
     setInterval(() => {
       this.seconds = this.getCurrentSeconds();
 
+      let minuteTicked = false;
       if (this.seconds === 0) {
+        minuteTicked = true;
         this.minutes = this.getCurrentMinutes();
       }
 
-      if (this.minutes === 0) {
-        this.hours = this.getCurrentHours();
+      if (this.minutes === 0 && minuteTicked) {
+        this.hours = (this.hours + 1) % 24;
       }
     }, 1000);
   },

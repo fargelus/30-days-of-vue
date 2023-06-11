@@ -1,17 +1,14 @@
 <template>
-  <timezone-picker></timezone-picker>
   <analog-clock></analog-clock>
 </template>
 
 <script>
 import AnalogClock from "./components/AnalogClock.vue";
-import TimezonePicker from "./components/TimezonePicker.vue";
 
 export default {
   name: "App",
   components: {
     AnalogClock,
-    TimezonePicker,
   },
 };
 </script>

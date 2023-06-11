@@ -1,9 +1,21 @@
 <template>
-  <select @change="setTimeWithinZone" class="timezone-picker">
-    <option :key="index" v-for="(tmz, index) in timezones" :value="tmz">
-      {{ tmz }}
-    </option>
-  </select>
+  <div class="timezone-picker">
+    <input
+      type="text"
+      v-model="userTimezoneSearch"
+      @input="filterZones"
+      placeholder="Search zone"
+    />
+    <select @change="setTimeWithinZone">
+      <option
+        :key="index"
+        v-for="(tmz, index) in filteredTimeZones"
+        :value="tmz"
+      >
+        {{ tmz }}
+      </option>
+    </select>
+  </div>
 </template>
 
 <script>
@@ -11,11 +23,12 @@ export default {
   name: "TimezonePicker",
   data() {
     return {
+      userTimezoneSearch: "",
       timezones: [],
+      filteredTimeZones: [],
       timeInZone: null,
       formatOptions: {
         hour: "numeric",
-        minute: "numeric",
       },
       formatLocale: "en-GB",
       localDate: new Date(),
@@ -34,16 +47,30 @@ export default {
 
       this.timezones.push(tz);
     }
+
+    this.filteredTimeZones = this.timezones;
   },
 
   methods: {
     setTimeWithinZone(ev) {
       const pickedZone = ev.target.value;
       this.formatOptions["timeZone"] = pickedZone;
-      this.timeInZone = new Intl.DateTimeFormat(
+      this.hourInZone = new Intl.DateTimeFormat(
         this.formatLocale,
         this.formatOptions
       ).format(this.localDate);
+      this.$emit("hours-changed", this.hourInZone);
+    },
+
+    filterZones() {
+      if (this.userTimezoneSearch == "") {
+        this.filteredTimeZones = this.timezones;
+        return;
+      }
+
+      this.filteredTimeZones = this.timezones.filter((zone) =>
+        zone.includes(this.userTimezoneSearch)
+      );
     },
   },
 };
@@ -51,6 +78,8 @@ export default {
 
 <style>
 .timezone-picker {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   right: 5%;
   top: 20px;
